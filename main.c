@@ -20,7 +20,6 @@ int	main()
 		SDL_Quit();
 		return (1);
 	}
-
 	Uint32	render_flags = (SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
 	SDL_Renderer *renderer = SDL_CreateRenderer(window,
 									-1, render_flags);
@@ -31,18 +30,18 @@ int	main()
 		SDL_Quit();
 		return (1);
 	}
-	SDL_Surface *background = IMG_Load("resources/background.png");
-	if (!background)
+	SDL_Surface *surface = IMG_Load("resources/background.png");
+	if (!surface)
 	{
-		printf("Error creating texture: %s\n", SDL_GetError());
+		printf("Error creating surface: %s\n", SDL_GetError());
 		SDL_DestroyRenderer(renderer);
 		SDL_DestroyWindow(window);
 		SDL_Quit();
 		return (1);
 	}
-	SDL_Texture *texture = SDL_CreateTextureFromSurface(renderer, background);
-	SDL_FreeSurface(background);
-	if (!texture)
+	SDL_Texture *background = SDL_CreateTextureFromSurface(renderer, surface);
+	SDL_FreeSurface(surface);
+	if (!background)
 	{
 		printf("Error creating the texture: %s\n", SDL_GetError());
 		SDL_DestroyRenderer(renderer);
@@ -50,14 +49,27 @@ int	main()
 		SDL_Quit();
 		return (1);
 	}
+	surface = IMG_Load("resources/cat2.png");
+	SDL_Texture *player_img = SDL_CreateTextureFromSurface(renderer, surface);
+	SDL_FreeSurface(surface);
+
 	SDL_RenderClear(renderer);
 	SDL_RenderCopy(renderer,
-					texture,
+					background,
 					NULL,
 					NULL);
+	SDL_Rect player;
+	player.x = 0;
+	player.y = 0;
+	//player.w = 128;
+	//player.h = 192;
+	SDL_QueryTexture(player_img, NULL, NULL, &player.w, &player.h);
+	player.y = (600 - player.h) / 1.5;
+
+	SDL_RenderCopy(renderer, player_img, NULL, &player);
 	SDL_RenderPresent(renderer);
 	SDL_Delay(3000);
-	SDL_DestroyTexture(texture);
+	SDL_DestroyTexture(background);
 	SDL_DestroyRenderer(renderer);
 	SDL_DestroyWindow(window);
 	SDL_Quit();
