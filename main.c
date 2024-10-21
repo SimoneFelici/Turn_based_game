@@ -50,8 +50,24 @@ int	main()
 		return (1);
 	}
 	surface = IMG_Load("resources/cat.png");
+	if (!surface)
+	{
+		printf("Error creating surface: %s\n", SDL_GetError());
+		SDL_DestroyRenderer(renderer);
+		SDL_DestroyWindow(window);
+		SDL_Quit();
+		return (1);
+	}
 	SDL_Texture *player_img = SDL_CreateTextureFromSurface(renderer, surface);
 	SDL_FreeSurface(surface);
+	if (!player_img)
+	{
+		printf("Error creating the texture: %s\n", SDL_GetError());
+		SDL_DestroyRenderer(renderer);
+		SDL_DestroyWindow(window);
+		SDL_Quit();
+		return (1);
+	}
 	SDL_RenderClear(renderer);
 	SDL_RenderCopy(renderer,
 					background,
