@@ -49,7 +49,7 @@ int	main()
 		SDL_Quit();
 		return (1);
 	}
-	surface = IMG_Load("resources/cat2.png");
+	surface = IMG_Load("resources/cat.png");
 	SDL_Texture *player_img = SDL_CreateTextureFromSurface(renderer, surface);
 	SDL_FreeSurface(surface);
 
