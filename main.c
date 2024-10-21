@@ -52,7 +52,6 @@ int	main()
 	surface = IMG_Load("resources/cat.png");
 	SDL_Texture *player_img = SDL_CreateTextureFromSurface(renderer, surface);
 	SDL_FreeSurface(surface);
-
 	SDL_RenderClear(renderer);
 	SDL_RenderCopy(renderer,
 					background,
@@ -60,12 +59,8 @@ int	main()
 					NULL);
 	SDL_Rect player;
 	player.x = 0;
-	player.y = 0;
-	//player.w = 128;
-	//player.h = 192;
 	SDL_QueryTexture(player_img, NULL, NULL, &player.w, &player.h);
 	player.y = (600 - player.h) / 1.5;
-
 	SDL_RenderCopy(renderer, player_img, NULL, &player);
 	SDL_RenderPresent(renderer);
 	SDL_Delay(3000);
