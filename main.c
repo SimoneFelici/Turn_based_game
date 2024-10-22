@@ -2,9 +2,26 @@
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_video.h>
 #include <SDL2/SDL_image.h>
+#include "class.h"
 
 int	main()
 {
+	int	class_idx;
+	t_class c_player = create_empty_class();
+
+	while(c_player.health == 0)
+	{
+		printf("Choose your class:\n"
+			"1) Cavaliere\n"
+			"2) Mago\n");
+		scanf("%d", &class_idx);
+		c_player = choose_class(class_idx);
+		if(c_player.health == 0)
+		{
+			printf("Not a valid class!\n");
+		}
+	}
+	//printf("Class: %s, Health: %d, Damage: %d\n", c_player.name, c_player.health, c_player.damage);
 	if (SDL_Init(SDL_INIT_VIDEO) != 0)
 	{
 		printf("Error initializing SDL: %s\n", SDL_GetError());
@@ -49,7 +66,7 @@ int	main()
 		SDL_Quit();
 		return (1);
 	}
-	surface = IMG_Load("resources/cat.png");
+	surface = IMG_Load(c_player.sprite);
 	if (!surface)
 	{
 		printf("Error creating surface: %s\n", SDL_GetError());
