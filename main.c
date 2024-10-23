@@ -3,6 +3,7 @@
 #include <SDL2/SDL_video.h>
 #include <SDL2/SDL_image.h>
 #include "class.h"
+#include "combat.h"
 
 int	main()
 {
@@ -21,7 +22,6 @@ int	main()
 			printf("Not a valid class!\n");
 		}
 	}
-	//printf("Class: %s, Health: %d, Damage: %d\n", c_player.name, c_player.health, c_player.damage);
 	if (SDL_Init(SDL_INIT_VIDEO) != 0)
 	{
 		printf("Error initializing SDL: %s\n", SDL_GetError());
@@ -85,18 +85,38 @@ int	main()
 		SDL_Quit();
 		return (1);
 	}
-	SDL_RenderClear(renderer);
-	SDL_RenderCopy(renderer,
-					background,
-					NULL,
-					NULL);
 	SDL_Rect player;
-	player.x = 0;
 	SDL_QueryTexture(player_img, NULL, NULL, &player.w, &player.h);
-	player.y = (600 - player.h) / 1.5;
-	SDL_RenderCopy(renderer, player_img, NULL, &player);
-	SDL_RenderPresent(renderer);
-	SDL_Delay(3000);
+	player.x = 50;
+	player.y = (600 - player.h) / 1.3;
+	int	close_window = 0;
+	while(!close_window)
+	{
+		SDL_Event event;
+		while (SDL_PollEvent(&event))
+		{
+			switch (event.type)
+			{
+				case SDL_QUIT:
+					close_window = 1;
+					break;
+				case SDL_KEYDOWN:
+					switch (event.key.keysym.scancode)
+					{
+						case SDL_SCANCODE_A:
+							attack(renderer, background, player_img, &player);
+							break;
+						default:
+							break;
+					}
+			}
+		}
+		SDL_RenderClear(renderer);
+		SDL_RenderCopy(renderer, background, NULL, NULL);
+		SDL_RenderCopy(renderer, player_img, NULL, &player);
+		SDL_RenderPresent(renderer);
+		SDL_Delay(100);
+	}
 	SDL_DestroyTexture(background);
 	SDL_DestroyRenderer(renderer);
 	SDL_DestroyWindow(window);
