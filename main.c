@@ -37,6 +37,9 @@ int	main()
 		SDL_Quit();
 		return (1);
 	}
+	int window_width, window_height;
+	SDL_GetWindowSize(window, &window_width, &window_height);
+
 	Uint32	render_flags = (SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
 	SDL_Renderer *renderer = SDL_CreateRenderer(window,
 									-1, render_flags);
@@ -88,34 +91,47 @@ int	main()
 	SDL_Rect player;
 	SDL_QueryTexture(player_img, NULL, NULL, &player.w, &player.h);
 	player.x = 50;
-	player.y = (600 - player.h) / 1.3;
+	player.y = (window_height - player.h) / 1.3;
+	int	turn = 0;
 	int	close_window = 0;
 	while(!close_window)
 	{
-		SDL_Event event;
-		while (SDL_PollEvent(&event))
+		if(c_player.health > 0)
 		{
-			switch (event.type)
+			SDL_Event event;
+			while (SDL_PollEvent(&event))
 			{
-				case SDL_QUIT:
-					close_window = 1;
-					break;
-				case SDL_KEYDOWN:
-					switch (event.key.keysym.scancode)
-					{
-						case SDL_SCANCODE_A:
-							attack(renderer, background, player_img, &player);
-							break;
-						default:
-							break;
-					}
+				switch (event.type)
+				{
+					case SDL_QUIT:
+						close_window = 1;
+						break;
+					case SDL_KEYDOWN:
+						switch (event.key.keysym.scancode)
+						{
+							case SDL_SCANCODE_A:
+								turn++;
+								c_player.health = 0,
+								attack(renderer, background, player_img, &player, window);
+								break;
+							default:
+								break;
+						}
+				}
 			}
+			SDL_RenderClear(renderer);
+			SDL_RenderCopy(renderer, background, NULL, NULL);
+			SDL_RenderCopy(renderer, player_img, NULL, &player);
+			SDL_RenderPresent(renderer);
+			SDL_Delay(16);
 		}
-		SDL_RenderClear(renderer);
-		SDL_RenderCopy(renderer, background, NULL, NULL);
-		SDL_RenderCopy(renderer, player_img, NULL, &player);
-		SDL_RenderPresent(renderer);
-		SDL_Delay(100);
+		else
+		{
+			printf("Game over\n");
+			printf("Your survived %d turns\n", turn);
+			SDL_Delay(2000);
+			close_window = 1;
+		}
 	}
 	SDL_DestroyTexture(background);
 	SDL_DestroyRenderer(renderer);
