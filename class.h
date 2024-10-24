@@ -12,6 +12,7 @@ typedef struct s_class
 t_class create_empty_class();
 t_class create_knight();
 t_class create_mage();
+t_class create_enemy();
 t_class choose_class(int class_idx);
 
 #endif

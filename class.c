@@ -27,6 +27,15 @@ t_class create_mage()
     strcpy(mago.sprite, "resources/mago.png");
     return (mago);
 }
+t_class create_enemy()
+{
+    t_class enemy;
+    strcpy(enemy.name, "Enemy");
+    enemy.health = 300;
+    enemy.damage = 200;
+    strcpy(enemy.sprite, "resources/evil_cat.png");
+    return (enemy);
+}
 t_class	choose_class(int class_idx)
 {
 	switch(class_idx)
