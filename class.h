@@ -7,6 +7,7 @@ typedef struct s_class
     int health;
     int damage;
     char    sprite[30];
+    int speed;
 } t_class;
 
 t_class create_empty_class();

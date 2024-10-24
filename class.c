@@ -7,6 +7,7 @@ t_class create_empty_class()
     strcpy(empty_class.name, "");
     empty_class.health = 0;
     empty_class.damage = 0;
+    empty_class.speed = 0;
     return (empty_class);
 }
 t_class create_knight()
@@ -15,6 +16,7 @@ t_class create_knight()
     strcpy(cavaliere.name, "Cavaliere");
     cavaliere.health = 100;
     cavaliere.damage = 100;
+    cavaliere.speed = 100;
     strcpy(cavaliere.sprite, "resources/cavaliere.png");
     return (cavaliere);
 }
@@ -22,8 +24,9 @@ t_class create_mage()
 {
     t_class mago;
     strcpy(mago.name, "Mago");
-    mago.health = 60;
-    mago.damage = 150;
+    mago.health = 460;
+    mago.damage = 50;
+    mago.speed = 250;
     strcpy(mago.sprite, "resources/mago.png");
     return (mago);
 }
@@ -31,8 +34,9 @@ t_class create_enemy()
 {
     t_class enemy;
     strcpy(enemy.name, "Enemy");
-    enemy.health = 300;
-    enemy.damage = 200;
+    enemy.health = 400;
+    enemy.damage = 50;
+    enemy.speed = 210;
     strcpy(enemy.sprite, "resources/evil_cat.png");
     return (enemy);
 }
